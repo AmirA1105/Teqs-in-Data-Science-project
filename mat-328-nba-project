@@ -7,3 +7,27 @@ pd.set_option('display.max_columns', None)
 nba = pd.read_csv("2023-2024 NBA Player Stats - Playoffs.csv", sep=";")
 nba = nba.drop(columns = "Rk")
 nba
+
+#Filter out players that played a small amount of minutes as their stats aren't valuable information
+rotation = nba[nba["MP"]>=15]
+rotation
+
+rotation["PTS"].hist(bins=30)
+plt.xlabel("Points Per Game")
+plt.ylabel("# of Players")
+plt.title("Points Per Game Distribution")
+
+rotation["FG%"].hist(bins=30)
+plt.xlabel("Field Goal Percentage")
+plt.ylabel("# of Players")
+plt.title("Distribution of Field Goal Percentage")
+
+rotation["3P%"].hist(bins=30)
+plt.xlabel("Three Point Percentage")
+plt.ylabel("# of Players")
+plt.title("Distribution of Three Point Percentage")
+
+rotation["FT%"].hist(bins=30)
+plt.xlabel("Free Throw Percentage")
+plt.ylabel("# of Players")
+plt.title("Distribution of Free Throw Percentage")
