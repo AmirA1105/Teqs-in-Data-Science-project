@@ -12,6 +12,7 @@ nba
 rotation = nba[nba["MP"]>=15]
 rotation
 
+#Four single variable plots
 rotation["PTS"].hist(bins=30)
 plt.xlabel("Points Per Game")
 plt.ylabel("# of Players")
@@ -31,3 +32,15 @@ rotation["FT%"].hist(bins=30)
 plt.xlabel("Free Throw Percentage")
 plt.ylabel("# of Players")
 plt.title("Distribution of Free Throw Percentage")
+
+#Two multi-variable plots
+sns.relplot(x="PTS", y="3PA", hue="Pos", data=rotation).fig.set_size_inches(8,9)
+plt.xlabel("Avg Points Per Game")
+plt.ylabel("Avg Three-Pointers Attempted Per Game")
+plt.title("Relationship Between Points Per Game and Three-Pointers Attempted")
+
+plt.figure(figsize=(8,7))
+sns.regplot(x="AST", y="TOV", data=rotation)
+plt.xlabel("Avg Asists Per Game")
+plt.ylabel("Avg Turnovers Per Game")
+plt.title("Relationship Between Average Asists Per Game and Turnovers")
