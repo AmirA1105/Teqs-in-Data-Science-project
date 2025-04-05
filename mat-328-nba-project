@@ -33,8 +33,18 @@ plt.xlabel("Free Throw Percentage")
 plt.ylabel("# of Players")
 plt.title("Distribution of Free Throw Percentage")
 
+def front_or_back(x):
+    if x=="PG" or x=="SG":
+        return "Guards"
+    elif x=="SF" or x=="PF":
+        return "Forwards"
+    else:
+        return "Center"
+
+rotation.loc[:,"General_Pos"]=rotation["Pos"].apply(front_or_back)
+
 #Two multi-variable plots
-sns.relplot(x="PTS", y="3PA", hue="Pos", data=rotation).fig.set_size_inches(8,9)
+sns.relplot(x="PTS", y="3PA", hue="Genral_Pos", data=rotation).fig.set_size_inches(8,9)
 plt.xlabel("Avg Points Per Game")
 plt.ylabel("Avg Three-Pointers Attempted Per Game")
 plt.title("Relationship Between Points Per Game and Three-Pointers Attempted")
