@@ -54,3 +54,75 @@ sns.regplot(x="AST", y="TOV", data=rotation)
 plt.xlabel("Avg Asists Per Game")
 plt.ylabel("Avg Turnovers Per Game")
 plt.title("Relationship Between Average Asists Per Game and Turnovers")
+
+#Machine Learning model 1
+#Drop player column since it isn't data and will create too many dummies
+#Convert qualitative columns into dummies
+rotation_dummy = rotation.drop(columns="Player")
+rotation_dummy = pd.get_dummies(rotation_dummy, columns=["Pos", "Tm", "General_Pos"], drop_first = True)
+
+#create variable, x, with all columns except dependent variable
+x = rotation_dummy.drop(columns="PTS")
+x.head()
+
+#create variable with dependent variable
+y = rotation_dummy["PTS"]
+y.head()
+
+#split data into testing and training data
+x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.2)
+
+#Create K Nearest Neighbors model and fit training data into the model
+knn = KNeighborsRegressor(n_neighbors=5)
+knn.fit(x_train, y_train)
+
+#Use the testing data to predict the dependent variable(pts)
+y_test_pred = knn.predict(x_test)
+y_test_pred
+
+#Calculate the MSE
+mean_squared_error(y_test_pred, y_test)
+
+#Create and fit another K Nearest Neighbors model with k equaling a new value
+knn8 = KNeighborsRegressor(n_neighbors=8)
+knn8.fit(x_train, y_train)
+
+y8_test_pred = knn8.predict(x_test)
+y8_test_pred
+
+mean_squared_error(y8_test_pred, y_test)
+
+#One more model
+knn10 = KNeighborsRegressor(n_neighbors=10)
+knn10.fit(x_train, y_train)
+
+y10_test_pred = knn10.predict(x_test)
+y10_test_pred
+
+mean_squared_error(y10_test_pred, y_test)
+
+#Model 2: Decision Tree models
+dt3 = DecisionTreeRegressor(max_depth=3)
+dt3.fit(x_train,y_train)
+
+y_dt3_pred = dt3.predict(x_test)
+y_dt3_pred
+
+mean_squared_error(y_dt3_pred, y_test)
+
+dt7 = DecisionTreeRegressor(max_depth=7)
+dt7.fit(x_train, y_train)
+
+y_dt7_pred = dt7.predict(x_test)
+y_dt7_pred
+
+mean_squared_error(y_dt7_pred, y_test)
+
+dt10 = DecisionTreeRegressor(max_depth=10)
+dt10.fit(x_train, y_train)
+
+y_dt10_pred = dt10.predict(x_test)
+y_dt10_pred
+
+mean_squared_error(y_dt10_pred, y_test)
+
