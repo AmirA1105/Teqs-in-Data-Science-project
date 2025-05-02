@@ -129,6 +129,12 @@ for k in range(1,13):
     else:
         print("MSE for k value",k,": ", dt_mse)
 
+best_fit_dt = DecisionTreeRegressor(max_depth=4)
+best_fit_dt.fit(x_train, y_train)
+
+fig, axes = plt.subplots(nrows = 1,ncols = 1,figsize = (10,10), dpi=600)
+plot_tree(best_fit_dt, feature_names = x.columns)
+
 pd.Series(knn_mses).min()
 
 pd.Series(dt_mses).min()
