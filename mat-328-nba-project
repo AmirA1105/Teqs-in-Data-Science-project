@@ -99,6 +99,7 @@ for k in range(1,11):
     y_test_pred = knn.predict(x_test)
     mse = mean_squared_error(y_test_pred, y_test)
     print("MSE for ", k, ": ", mse)
+    
     #For loop so white space and colons are alligned
     if k<10:
         print("MSE for  ", k, ": ", mse)
@@ -114,19 +115,20 @@ y_dt3_pred
 
 mean_squared_error(y_dt3_pred, y_test)
 
-dt7 = DecisionTreeRegressor(max_depth=7)
-dt7.fit(x_train, y_train)
+#Same for loop as K-Nearest
+dt_mses=[]
+for k in range(1,13):
+    dt = DecisionTreeRegressor(max_depth=k)
+    dt.fit(x_train, y_train)
+    y_dt_pred = dt.predict(x_test)
+    dt_mse = mean_squared_error(y_dt_pred, y_test)
+    dt_mses.append(dt_mse)
 
-y_dt7_pred = dt7.predict(x_test)
-y_dt7_pred
+    if k<10:
+        print("MSE for k value ",k,": ", dt_mse)
+    else:
+        print("MSE for k value",k,": ", dt_mse)
 
-mean_squared_error(y_dt7_pred, y_test)
+pd.Series(knn_mses).min()
 
-dt10 = DecisionTreeRegressor(max_depth=10)
-dt10.fit(x_train, y_train)
-
-y_dt10_pred = dt10.predict(x_test)
-y_dt10_pred
-
-mean_squared_error(y_dt10_pred, y_test)
-
+pd.Series(dt_mses).min()
