@@ -140,3 +140,7 @@ plot_tree(best_fit_dt, feature_names = x.columns)
 pd.Series(knn_mses).min()
 
 pd.Series(dt_mses).min()
+
+pd.Series(knn_mses).var()
+
+pd.Series(dt_mses).var()
