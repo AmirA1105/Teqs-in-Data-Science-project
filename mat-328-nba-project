@@ -144,3 +144,33 @@ pd.Series(dt_mses).min()
 pd.Series(knn_mses).var()
 
 pd.Series(dt_mses).var()
+
+#Permutation Test
+rotation2 = rotation[["PTS","General_Pos"]]
+rotation2
+
+rotation2.groupby("General_Pos")["PTS"].mean()
+
+#assign the means of points per game by the different general positions to variables
+guard_mean = rotation2[rotation2["General_Pos"]=="Guard"]["PTS"].mean()
+forward_mean = rotation2[rotation2["General_Pos"]=="Forward"]["PTS"].mean()
+center_mean = rotation2[rotation2["General_Pos"]=="Center"]["PTS"].mean()
+
+#compute the test statistic
+test_stat = np.abs(guard_mean - forward_mean - center_mean)
+test_stat
+
+#Create and fill a list with 10000 random test statistics
+test_stat_list=[]
+for i in range(10000):
+    rotation2.loc[:,"permutated_pos"] = np.random.permutation(rotation2["General_Pos"])
+    sim_guard_mean = rotation2[rotation2["permutated_pos"]=="Guard"]["PTS"].mean()
+    sim_center_mean = rotation2[rotation2["permutated_pos"]=="Center"]["PTS"].mean()
+    sim_forward_mean = rotation2[rotation2["permutated_pos"]=="Forward"]["PTS"].mean()
+    test_stat_list.append(np.abs(sim_guard_mean - sim_center_mean - sim_forward_mean))
+
+#Plot histogram of the distribution of the random test statistics
+pd.Series(test_stat_list).hist(bins=50)
+plt.title("Distribution of Permutated Test Statistics")
+plt.xlabel("Test Statistic")
+plt.ylabel("Frequency")
